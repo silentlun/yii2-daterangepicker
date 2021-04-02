@@ -172,26 +172,7 @@ class DateRangePicker extends InputWidget
      */
     public function run()
     {
-        /* $button = Html::button('<i class="fa fa-calendar"></i> <span>1 Jun 2020 - 7 Jun 2020</span> <b class="caret"></b>', $this->options);
         
-        $input = $this->hasModel()
-        ? Html::activeTextInput($this->model, $this->attribute, $this->options)
-        : Html::textInput($this->name, $this->value, $this->options);
-        
-        if ($this->addon) {
-            if ($this->isBs4()) {
-                $addonText = Html::tag('span', $this->addon, ['class' => 'input-group-text']);
-                $addon = Html::tag('div', $addonText, ['class' => $this->addonType == 'left' ? 'input-group-prepend' : 'input-group-append']);
-            } else {
-                $addon = Html::tag('span', $this->addon, ['class' => 'input-group-addon']);
-            }
-            $input = strtr($this->template, ['{input}' => $input, '{addon}' => $addon]);
-            $input = Html::tag('div', $input, $this->containerOptions);
-        } */
-        //echo $input;
-        
-        //echo $this->renderInput();
-        //echo $this->renderDropdown();
         echo $this->renderInput();
     }
     
@@ -214,18 +195,6 @@ class DateRangePicker extends InputWidget
         ], $this->pluginOptions);
         $options = Json::encode($this->pluginOptions);
         
-        /* if (empty($this->callback)) {
-            $val = "start.format('{$this->_format}') + '{$this->_separator}' + end.format('{$this->_format}')";
-            if (ArrayHelper::getValue($this->pluginOptions, 'singleDatePicker', false)) {
-                $val = "start.format('{$this->_format}')";
-            }
-            $rangeJs = $this->getRangeJs('start') . $this->getRangeJs('end');
-            $change = "{$selector}.val(val).trigger('change');{$rangeJs}";
-            $script = "var val={$val};{$change}";
-            $this->callback = "function(start,end,label){{$script}}";
-        } */
-        
-        //$js[] = "{$selector}.daterangepicker({$options},{$this->callback});";
         
         $val = "start.format('{$this->_format}') + '{$this->_separator}' + end.format('{$this->_format}')";
         if (ArrayHelper::getValue($this->pluginOptions, 'singleDatePicker', false)) {
@@ -265,8 +234,6 @@ JS; */
         $isBs4 = $this->isBs4();
         
         if (!isset($this->pickerIcon)) {
-            //$iconCss = $isBs4 ? 'fa fa-calendar' : 'glyphicon glyphicon-calendar';
-            //$this->pickerIcon = Html::tag('i', '', ['class' => $iconCss]);
             $this->pickerIcon = Html::tag('i', '', ['class' => 'fa fa-calendar']);
         }
         if (!isset($this->pluginOptions['cancelButtonClasses'])) {
@@ -402,8 +369,12 @@ JS; */
             Html::addCssClass($this->options, ['class' => $isBs4 ? 'btn-outline-secondary' : 'btn-default']);
             return Html::button($this->pickerIcon.' <span>'.$this->value.'</span> <b class="caret"></b>', $this->options) . $append;
         }
-        $addon = Html::tag('span', $this->pickerIcon, ['class' => 'input-group-addon']);
-        //$input = strtr($this->template, ['{input}' => $input, '{addon}' => $addon]);
+        if ($isBs4) {
+            $addon = Html::tag('span', $this->pickerIcon, ['class' => 'input-group-text']);
+            $addon = Html::tag('div', $addon, ['class' => 'input-group-append']);
+        } else {
+            $addon = Html::tag('span', $this->pickerIcon, ['class' => 'input-group-addon']);
+        }
         $input = $this->renderInputHtml('text');
         return Html::tag('div', $input . $addon . $append, ['class' => 'input-group']);
     }
