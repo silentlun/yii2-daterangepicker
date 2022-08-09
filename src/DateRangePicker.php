@@ -1,9 +1,8 @@
 <?php
 /**
- * DateRangePicker.php
+ * @package yii2-daterangepicker
  * @author: silentlun
- * @date  2021年3月24日下午2:09:24
- * @copyright  Copyright igkcms
+ * @version 1.2
  */
 namespace silentlun\daterange;
 
@@ -14,6 +13,12 @@ use yii\helpers\Json;
 use yii\helpers\ArrayHelper;
 use yii\web\JsExpression;
 
+/**
+ * An advanced date range picker input for Yii Framework 2 based on bootstrap-daterangepicker plugin.
+ *
+ * @see https://github.com/dangrossman/bootstrap-daterangepicker
+ * @since 1.0
+ */
 class DateRangePicker extends InputWidget
 {
     use BootstrapTrait;
@@ -121,7 +126,6 @@ class DateRangePicker extends InputWidget
      */
     public $defaultPresetValueOptions = [];
     
-    
     /**
      * @var array the HTML attributes for the form input
      */
@@ -156,8 +160,7 @@ class DateRangePicker extends InputWidget
      * @var string the generated input for end attribute when `endAttribute` has been set
      */
     protected $_endInput = '';
-    
-    
+
     /**
      * @inheritdoc
      */
@@ -172,7 +175,6 @@ class DateRangePicker extends InputWidget
      */
     public function run()
     {
-        
         echo $this->renderInput();
     }
     
@@ -212,14 +214,6 @@ class DateRangePicker extends InputWidget
 });
 JS;
         }
-        /* $js[] .= <<< JS
-        {$selector}.on('apply.daterangepicker', function(ev, picker) {
-$('#{$id} span').html(picker.startDate.format('YYYY-MM-DD') + ' {$this->_separator} ' + picker.endDate.format('YYYY-MM-DD'));
-console.log(picker.startDate.format('YYYY-MM-DD'));
-console.log(picker.endDate.format('YYYY-MM-DD'));
-console.log(moment().subtract(7, 'days'));
-});
-JS; */
         $view->registerJs(implode("\n", $js));
     }
     
@@ -346,27 +340,13 @@ JS; */
      *
      * @return string
      */
-    protected function renderDropdown()
-    {
-        $isBs4 = $this->isBs4();
-        $this->options['class'] = 'btn';
-        Html::addCssClass($this->options, ['class' => $isBs4 ? 'btn-outline-secondary' : 'btn-default']);
-        $button = Html::button($this->pickerIcon.' <span>'.$this->value.'</span> <b class="caret"></b>', $this->options);
-        return $button;
-    }
-    
-    /**
-     * Renders the input
-     *
-     * @return string
-     */
     protected function renderInput()
     {
         $isBs4 = $this->isBs4();
         $append = $this->_startInput . $this->_endInput;
         if ($this->presetDropdown) {
             $this->options['class'] = 'btn';
-            Html::addCssClass($this->options, ['class' => $isBs4 ? 'btn-outline-secondary' : 'btn-default']);
+            Html::addCssClass($this->options, ['class' => $isBs4 ? 'btn-outline-secondary dropdown-toggle' : 'btn-default']);
             return Html::button($this->pickerIcon.' <span>'.$this->value.'</span> <b class="caret"></b>', $this->options) . $append;
         }
         if ($isBs4) {

@@ -10,7 +10,7 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist silentlun/yii2-daterangepicker "*"
+php composer require --prefer-dist silentlun/yii2-daterangepicker "*"
 ```
 
 or add
@@ -30,10 +30,43 @@ Once the extension is installed, simply use it in your code by  :
 ```php
 use silentlun\daterange\DateRangePicker;
 echo DateRangePicker::widget([
+    'name' => 'daterange',
+    'attribute' => 'datetime_range',
+    'pluginOptions' => [
+        'timePicker' => true,
+        'locale' => [
+            'format' => 'YYYY-MM-DD'
+        ]
+    ]
+]);
+```
+or using on model
+
+```php
+use silentlun\daterange\DateRangePicker;
+echo DateRangePicker::widget([
+    'model' => $model,
+    'attribute' => 'datetime_range',
+    'pluginOptions' => [
+        'timePicker' => true,
+        'locale' => [
+            'format'=>'YYYY-MM-DD'
+        ]
+    ]
+]);
+```
+or using seperate start/end attributes on model
+
+```php
+use silentlun\daterange\DateRangePicker;
+echo DateRangePicker::widget([
     'model'=>$model,
     'attribute'=>'datetime_range',
+    'startAttribute'=>'datetime_start',
+    'endAttribute'=>'datetime_end',
     'pluginOptions'=>[
         'timePicker'=>true,
+        'timePickerIncrement'=>30,
         'locale'=>[
             'format'=>'YYYY-MM-DD'
         ]
